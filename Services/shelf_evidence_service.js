@@ -3,6 +3,7 @@ const { v4 } = require('uuid');
 
 const { Shelf_Evidence } = require('../Models/shelf_evidence_model');
 const { Shelf_Evidence_Media } = require('../Models/shelf_evidence_media_model');
+const { HasMany } = require('sequelize');
 
 // find
 const findShelfEvidenceByClient = (client_id) =>{
@@ -31,6 +32,25 @@ const findShelfEvidenceByUser = (user_id) =>{
             const result = await Shelf_Evidence.findAll({where: {User_ID: user_id}})
             resolve(result)
         }catch(e){
+            reject(e)
+        }
+    })
+}
+const findByIDAndGetMedia = (ID) =>{
+    return new Promise(async (resolve, reject)=>{
+        try{
+            const result = await Shelf_Evidence.findOne({
+                where: {ID: ID},
+                include: [
+                    {
+                        model: Shelf_Evidence_Media,
+                        association: new HasMany(Shelf_Evidence, Shelf_Evidence_Media, {foreignKey: "Shelf_Evidence_ID"})
+                    }
+                ]
+            })
+            resolve(result)
+        }catch(e){
+            console.log(e)
             reject(e)
         }
     })
@@ -89,5 +109,6 @@ module.exports = {
     newShelfEvidence,
     findShelfEvidenceByClient,
     findShelfEvidenceByPointSale,
-    findShelfEvidenceByUser
+    findShelfEvidenceByUser,
+    findByIDAndGetMedia
 }

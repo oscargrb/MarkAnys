@@ -1,4 +1,4 @@
-const { newShelfEvidence } = require("../Services/shelf_evidence_service")
+const { newShelfEvidence, findByIDAndGetMedia } = require("../Services/shelf_evidence_service")
 
 const addShelfEvidence = async (req, res) =>{
     try{
@@ -13,10 +13,21 @@ const addShelfEvidence = async (req, res) =>{
         res.json({ok:true, info: "Evidence saved!"})
 
     }catch(e){
-        res.json({ok: false, info: e})
+        res.json({ok: false, info: "Cant save Evidence"})
+    }
+}
+
+const findOneEvidence = async (req, res) =>{
+    try{
+        console.log(req.params.EvidenceID)
+        const evidence = await findByIDAndGetMedia(req.params.EvidenceID)
+        res.json({ok: true, evidence})
+    }catch(e){
+        res.json({ok: false, info: "Cant find evidence"})
     }
 }
 
 module.exports = {
-    addShelfEvidence
+    addShelfEvidence,
+    findOneEvidence
 }
