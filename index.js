@@ -4,12 +4,16 @@ const cors = require('cors') // mas adelante va a tener otras configuraciones
 require('dotenv').config()
 require('./Models/shelf_evidence_media_model')
 var cookieParser = require('cookie-parser')
+const corsOptions = require('./Config/CorsOptions')
+const credentials = require('./Middleware/credentials')
 
 
 const app = express()
 
+app.use(credentials)
+
 // Configuracion de CORS
-app.use(cors());
+app.use(cors(corsOptions));
 
 // Leer body solicitudes
 app.use(express.urlencoded({ extended: false }));
