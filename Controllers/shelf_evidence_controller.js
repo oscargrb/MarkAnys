@@ -3,9 +3,8 @@ const { newShelfEvidence, findByIDAndGetMedia, findShelfEvidenceByClient } = req
 const addShelfEvidence = async (req, res) =>{
     try{
         await newShelfEvidence({
-            client_id: req.body.client_id,
             point_sale_id: req.body.point_sale_id,
-            user_id: req.params.UserID,
+            user_id: req.UserID,
             geolocation: req.body.geolocation,
             Photos: req.files
         })

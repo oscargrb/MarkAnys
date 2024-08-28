@@ -36,6 +36,7 @@ app.get('/echo', (req, res) => res.json({value: 'Echo'}))
 
 app.use('/user', require('./Routes/User_route'))
 app.use('/shelf', require('./Routes/Shelf_evidence_route'))
+app.use('/PointSale', require('./Routes/Point_Sale_route'))
 
 /* app.use('/auth', require('./routes/auth_route'))
 app.use('/bussiness', require('./routes/business_route'))

@@ -7,6 +7,7 @@ const { HasMany, HasOne, BelongsTo } = require('sequelize');
 const { Client } = require('../Models/client_model');
 const { Point_Sale } = require('../Models/point_sale_model');
 const { User } = require('../Models/user_model');
+const { findByID } = require('./point_sale_service');
 
 // find
 const findShelfEvidenceByClient = (client_id) =>{
@@ -201,7 +202,6 @@ const findByIDAndGetMedia = (ID) =>{
 }
 // create
 const newShelfEvidence = ({
-    client_id,
     point_sale_id,
     user_id,
     geolocation = "",
@@ -210,9 +210,11 @@ const newShelfEvidence = ({
 }) => {
     return new Promise(async (resolve, reject)=>{
         try{
+            const letsFindClientID = await findByID(point_sale_id)
+
             const letsShelfEvidence = await Shelf_Evidence.create({
                 ID: v4(),
-                Client_ID: client_id,
+                Client_ID: letsFindClientID.dataValues.Client_ID,
                 Point_Sale_ID: point_sale_id,
                 User_ID: user_id,
                 Geolocation: geolocation,

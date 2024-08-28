@@ -7,7 +7,7 @@ const storage = multer.memoryStorage()
 const upload = multer({storage: storage})
 
 
-router.post('/new_evidence/:UserID', verifyJWT, upload.array('photos', 3), addShelfEvidence)
+router.post('/new_evidence/', verifyJWT, upload.array('photos', 3), addShelfEvidence)
 router.get('/get_evidence/:EvidenceID', verifyJWT, findOneEvidence)
 router.get('/client_evidence/:ClientID', verifyJWT, sendSomeEvidence)
 
