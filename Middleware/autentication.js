@@ -2,16 +2,20 @@ const jwt = require('jsonwebtoken');
 
 const verifyJWT = async (req, res, next) =>{
     try{
-        
         if (!req.cookies?.jwt) return res.sendStatus(401);
         const token = req.cookies.jwt;
 
         const verify = await jwt.verify(token, process.env.APIKEY)
-        
-        req.UserID = verify.ID
-        next()
+
+        if(!verify){
+            res.status(403).json({ok: false, info: "Error on Login"})
+        }else{
+            req.UserID = verify.ID
+            next()
+        }
+
     }catch(e){
-        res.status(403).json({ok: false, info: "Error on login"})
+        res.status(403).json({ok: false, info: "Error on Login"})
     }
 }
 

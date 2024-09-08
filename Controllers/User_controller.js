@@ -26,7 +26,18 @@ const login = async (req, res)=>{
     }
 }
 
+const verifyUser = (req, res) =>{
+    res.json({ok: true})
+}
+
+const logoutSesion = (req, res) =>{
+    res.clearCookie("jwt")
+    res.json({ok:true})
+}
+
 module.exports = {
     addUser,
-    login
+    login,
+    verifyUser,
+    logoutSesion
 }

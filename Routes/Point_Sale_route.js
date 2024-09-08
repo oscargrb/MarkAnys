@@ -1,11 +1,12 @@
 const express = require('express');
 
-const { verify } = require('jsonwebtoken');
+
 const { getPointSalesByClient, createPointSale } = require('../Controllers/Point_sale_controller');
+const verifyJWT = require('../Middleware/autentication');
 const router = express.Router();
 
 
-router.get('/find/:ClientID', verify, getPointSalesByClient)
-router.post('/new/:ClientID', verify, createPointSale)
+router.get('/find/:ClientID', verifyJWT, getPointSalesByClient)
+router.post('/new/:ClientID', verifyJWT, createPointSale)
 
 module.exports = router
