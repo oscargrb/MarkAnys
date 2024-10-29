@@ -1,43 +1,63 @@
-const { newShelfEvidence, findByIDAndGetMedia, findShelfEvidenceByClient } = require("../Services/shelf_evidence_service")
+const {
+  newShelfEvidence,
+  findByIDAndGetMedia,
+  findShelfEvidenceByClient,
+  findShelfEvidenceByUser,
+} = require("../Services/shelf_evidence_service");
 
-const addShelfEvidence = async (req, res) =>{
-    try{
-        await newShelfEvidence({
-            point_sale_id: req.body.point_sale_id,
-            user_id: req.UserID,
-            geolocation: req.body.geolocation,
-            Photos: req.files
-        })
+const addShelfEvidence = async (req, res) => {
+  try {
+    console.log(req.files);
 
-        res.json({ok:true, info: "Evidence saved!"})
+    await newShelfEvidence({
+      point_sale_id: req.body.point_sale_id,
+      user_id: req.UserID,
+      geolocation: req.body.geolocation,
+      Photos: req.files,
+      Existencia: req.body.Existencia,
+      Reposicion: req.body.Reposicion,
+      Product_ID: req.body.product
+    });
 
-    }catch(e){
-        res.json({ok: false, info: "Cant save Evidence"})
-    }
-}
+    res.json({ ok: true, info: "Evidence saved!" });
+  } catch (e) {
+    res.json({ ok: false, info: "Cant save Evidence" });
+  }
+};
 
-const findOneEvidence = async (req, res) =>{
-    try{
-        console.log(req.params.EvidenceID)
-        const evidence = await findByIDAndGetMedia(req.params.EvidenceID)
-        res.json({ok: true, evidence})
-    }catch(e){
-        res.json({ok: false, info: "Cant find evidence"})
-    }
-}
+const findOneEvidence = async (req, res) => {
+  try {
+    console.log(req.params.EvidenceID);
+    const evidence = await findByIDAndGetMedia(req.params.EvidenceID);
+    res.json({ ok: true, evidence });
+  } catch (e) {
+    res.json({ ok: false, info: "Cant find evidence" });
+  }
+};
 
-const sendSomeEvidence = async (req, res) =>{
-    try{
-        
-        const evidence = await findShelfEvidenceByClient(/* 'd3075db5-dafb-4627-8a6d-633b002f2e4a' */ req.params.ClientID)
-        res.json({ok: true, evidence})
-    }catch(e){
-        res.json({ok: false, info: "Cant find evidence"})
-    }
-}
+const sendSomeEvidence = async (req, res) => {
+  try {
+    const evidence = await findShelfEvidenceByClient(
+      /* 'd3075db5-dafb-4627-8a6d-633b002f2e4a' */ req.params.ClientID
+    );
+    res.json({ ok: true, evidence });
+  } catch (e) {
+    res.json({ ok: false, info: "Cant find evidence" });
+  }
+};
+
+const sendEvidenceByUser = async (req, res) => {
+  try {
+    const evidence = await findShelfEvidenceByUser(req.UserID);
+    res.json({ ok: true, evidence });
+  } catch (e) {
+    res.json({ ok: false, info: "Cant find evidence" });
+  }
+};
 
 module.exports = {
-    addShelfEvidence,
-    findOneEvidence,
-    sendSomeEvidence
-}
+  addShelfEvidence,
+  findOneEvidence,
+  sendSomeEvidence,
+  sendEvidenceByUser
+};

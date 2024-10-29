@@ -1,4 +1,4 @@
-const { createUser, LoginUser, findUserByUsername } = require("../Services/user_service")
+const { createUser, LoginUser, findUserByUsername, getClientByID } = require("../Services/user_service")
 const jwt = require('jsonwebtoken');
 
 const addUser = async (req, res)=>{
@@ -35,9 +35,20 @@ const logoutSesion = (req, res) =>{
     res.json({ok:true})
 }
 
+const sendClient = async (req, res) =>{
+   try{
+        const result = getClientByID(req.UserID)
+   }catch(e){
+
+   } 
+
+   res.json({ok:true})
+}
+
 module.exports = {
     addUser,
     login,
     verifyUser,
-    logoutSesion
+    logoutSesion,
+    sendClient
 }

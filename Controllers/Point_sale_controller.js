@@ -1,8 +1,10 @@
 const { findByClient, CreateWithClient } = require("../Services/point_sale_service")
+const { getClientByID } = require("../Services/user_service")
 
 const getPointSalesByClient = async (req, res)=>{
     try{
-        const result = await findByClient(req.params.ClientID)
+        const user = await getClientByID(req.UserID)
+        const result = await findByClient(user.dataValues.Client_ID)
         
         res.json({ok: true, results: result})
     }catch(e){

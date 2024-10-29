@@ -14,6 +14,18 @@ const findUserByUsername = (username) =>{
         }
     })
 }
+const getClientByID = (userID) => {
+    return new Promise(async (resolve, reject)=>{
+        try{
+            const result = await User.findOne({where:{ID: userID}})
+            if(result) {
+                resolve(result)
+            }
+        }catch(e){
+            reject(e)
+        }
+    })
+}
 // create
 const newUser = ({
     username,
@@ -98,5 +110,6 @@ const LoginUser = ({username, pwd}) =>{
 module.exports = {
     findUserByUsername,
     createUser,
-    LoginUser
+    LoginUser,
+    getClientByID
 }

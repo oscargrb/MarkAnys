@@ -6,7 +6,7 @@ const verifyJWT = require('../Middleware/autentication');
 const router = express.Router();
 
 
-router.get('/find/:ClientID', verifyJWT, getPointSalesByClient)
+router.get('/find', verifyJWT, getPointSalesByClient)
 router.post('/new/:ClientID', verifyJWT, createPointSale)
 
 module.exports = router
